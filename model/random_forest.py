@@ -46,6 +46,7 @@ def train_evaluate():
     }
 
     return {
+        "model": model,
         "metrics": metrics,
         "y_test": y_test,
         "y_pred": y_pred

@@ -15,6 +15,10 @@ def train_evaluate():
     # Load data
     X_train, X_test, y_train, y_test, preprocessor = load_data()
 
+    # Create downloadable test dataset
+    test_df = X_test.copy()
+    test_df["fraud_reported"] = y_test
+
     # Build pipeline
     model = Pipeline(steps=[
         ("preprocessor", preprocessor),
@@ -47,6 +51,7 @@ def train_evaluate():
     }
 
     return {
+        "model": model,
         "metrics": metrics,
         "y_test": y_test,
         "y_pred": y_pred
