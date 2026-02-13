@@ -1,5 +1,5 @@
 from model.data_preprocessing import load_data
-from sklearn.linear_model import LogisticRegression
+from xgboost import XGBClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import (
     accuracy_score,
@@ -18,24 +18,28 @@ def train_evaluate():
     # Build pipeline
     model = Pipeline(steps=[
         ("preprocessor", preprocessor),
-        ("classifier", LogisticRegression(
-            C=0.5,
-            solver="liblinear",
-            class_weight="balanced",
-            max_iter=1000,
-            random_state=42
+        ("classifier", XGBClassifier(
+            n_estimators=300,
+            max_depth=5,
+            learning_rate=0.05,
+            subsample=0.8,
+            colsample_bytree=0.8,
+            objective="binary:logistic",
+            eval_metric="logloss",
+            random_state=42,
+            n_jobs=-1
         ))
     ])
 
     # Train
     model.fit(X_train, y_train)
 
-    # Predict class labels
+    # Predict
     y_pred = model.predict(X_test)
 
     # Predict probabilities (for AUC)
     y_prob = model.predict_proba(X_test)[:, 1]
-
+    
     # Metrics
     metrics = {
         "Accuracy": accuracy_score(y_test, y_pred),

@@ -1,6 +1,5 @@
 from model.data_preprocessing import load_data
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import Pipeline
+from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import (
     accuracy_score,
     precision_score,
@@ -15,26 +14,19 @@ def train_evaluate():
     # Load data
     X_train, X_test, y_train, y_test, preprocessor = load_data()
 
-    # Build pipeline
-    model = Pipeline(steps=[
-        ("preprocessor", preprocessor),
-        ("classifier", LogisticRegression(
-            C=0.5,
-            solver="liblinear",
-            class_weight="balanced",
-            max_iter=1000,
-            random_state=42
-        ))
-    ])
+    # Preprocessing
+    X_train_processed = preprocessor.fit_transform(X_train)
+    X_test_processed = preprocessor.transform(X_test)
 
-    # Train
-    model.fit(X_train, y_train)
+    # Train model
+    model = GaussianNB()
+    model.fit(X_train_processed, y_train)
 
-    # Predict class labels
-    y_pred = model.predict(X_test)
+    # Predict
+    y_pred = model.predict(X_test_processed)
 
     # Predict probabilities (for AUC)
-    y_prob = model.predict_proba(X_test)[:, 1]
+    y_prob = model.predict_proba(X_test_processed)[:, 1]
 
     # Metrics
     metrics = {

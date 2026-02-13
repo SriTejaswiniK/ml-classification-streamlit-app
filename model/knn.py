@@ -1,5 +1,5 @@
 from model.data_preprocessing import load_data
-from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import (
     accuracy_score,
@@ -18,19 +18,16 @@ def train_evaluate():
     # Build pipeline
     model = Pipeline(steps=[
         ("preprocessor", preprocessor),
-        ("classifier", LogisticRegression(
-            C=0.5,
-            solver="liblinear",
-            class_weight="balanced",
-            max_iter=1000,
-            random_state=42
+        ("classifier", KNeighborsClassifier(
+            n_neighbors=5,
+            weights="distance"
         ))
     ])
 
     # Train
     model.fit(X_train, y_train)
 
-    # Predict class labels
+    # Predict
     y_pred = model.predict(X_test)
 
     # Predict probabilities (for AUC)

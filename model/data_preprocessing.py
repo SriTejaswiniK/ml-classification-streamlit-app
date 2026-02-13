@@ -20,7 +20,7 @@ def load_data(
     # Target column
     target_col = "fraud_reported"
 
-    # Drop irrelevant/ ID-like columns if present
+    # Drop irrelevant/ ID-like columns
     drop_cols = [
         "policy_number",
         "policy_bind_date",
@@ -69,5 +69,11 @@ def load_data(
         stratify=y,
         random_state=random_state
     )
+
+    # Reset indexes
+    X_train = X_train.reset_index(drop=True)
+    X_test = X_test.reset_index(drop=True)
+    y_train = y_train.reset_index(drop=True)
+    y_test = y_test.reset_index(drop=True)
 
     return X_train, X_test, y_train, y_test, preprocessor
