@@ -52,7 +52,7 @@ Each model was evaluated using:
 
 ## Comparison Table
 
-| ML Model            | Accuracy | AUC   | Precision | Recall | F1 Score | MCC   |
+| ML Model Name       | Accuracy | AUC   | Precision | Recall | F1 Score | MCC   |
 | ------------------- | -------- | ----- | --------- | ------ | -------- | ----- |
 | Logistic Regression | 0.840    | 0.856 | 0.635     | 0.816  | 0.714    | 0.615 |
 | Decision Tree       | 0.795    | 0.626 | 0.583     | 0.571  | 0.577    | 0.442 |
@@ -62,8 +62,6 @@ Each model was evaluated using:
 | XGBoost             | 0.795    | 0.844 | 0.595     | 0.510  | 0.549    | 0.420 |
 
 ---
-
-## Model Performance Observations
 
 ## Model Performance Observations
 
